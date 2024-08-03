@@ -81,7 +81,7 @@ app.put('/update-role/:id', async (req, resp) => {
 
 
 // Add a new product
-app.post('/add-product', async (req, res) => {
+app.post('/products', async (req, res) => {
   try {
     const { image, title, price, description } = req.body;
     

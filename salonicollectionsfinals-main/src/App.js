@@ -16,6 +16,8 @@ import ProductPage from './components/ProductPage';
 import './App.css';
 import Login from './components/Login';
 import EditProfile from './components/Editprofile';
+import Productdes from './pages/ProductDes';
+
 
 
 
@@ -25,6 +27,7 @@ const App = () => {
   return (
     <Router>
       <div className="app">
+        <div className='content'>
         <Header setPage={setPage} />
         <Navbar setPage={setPage} />
         <main className="main-content">
@@ -36,6 +39,8 @@ const App = () => {
                 <TopRatedPage />
                 <Sponsored />
                 <RecentlyViewed />
+              
+                
               </>
             } />
             <Route path="/signup" element={<Signup />} />
@@ -45,9 +50,12 @@ const App = () => {
             <Route path="/category" element={<Category />} />
             <Route path="/productpage" element={<ProductPage />} />
             <Route path="/help" element={<Help />} />
+            <Route path="/productdes" element={<Productdes /> } />
           </Routes>
         </main>
-        <Footer />
+        
+      </div>
+      <Footer />y
       </div>
     </Router>
   );

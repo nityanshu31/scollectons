@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const ProductCard = ({ image, title, price, description }) => {
     const productCardStyle = {
@@ -29,6 +30,8 @@ const ProductCard = ({ image, title, price, description }) => {
         border: 'none',
         cursor: 'pointer',
         fontSize: '16px',
+        textAlign: 'center',
+        textDecoration: 'none',
     };
 
     const addToCartButtonStyle = {
@@ -45,12 +48,14 @@ const ProductCard = ({ image, title, price, description }) => {
 
     return (
         <div style={productCardStyle}>
-            <img src={image} alt={title} style={productImageStyle} />
+            <Link to="/productdes">
+                <img src={image} alt={title} style={productImageStyle} />
+            </Link>
             <h3>{title}</h3>
             <p>{description}</p>
             <p style={priceStyle}>{price}</p>
-            <button style={addToCartButtonStyle}>Add to Cart</button>
-            <button style={buyNowButtonStyle}>Buy Now</button>
+            <Link to="/productdes" style={addToCartButtonStyle}>Add to Cart</Link>
+            <Link to="/productdes" style={buyNowButtonStyle}>Buy Now</Link>
         </div>
     );
 }

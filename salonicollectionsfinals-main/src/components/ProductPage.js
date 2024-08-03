@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Filter from './Filter';
 import ProductCard from './ProductCard';
 
@@ -13,19 +13,42 @@ import product7 from '../images/product7.png';
 import product8 from '../images/product8.png';
 import product9 from '../images/product9.png';
 
-const products = [
-    { image: product1, title: 'Product 1', price: '$0', description: 'Body text' },
-    { image: product2, title: 'Product 2', price: '$0', description: 'Body text' },
-    { image: product3, title: 'Product 3', price: '$0', description: 'Body text' },
-    { image: product4, title: 'Product 4', price: '$0', description: 'Body text' },
-    { image: product5, title: 'Product 5', price: '$0', description: 'Body text' },
-    { image: product6, title: 'Product 6', price: '$0', description: 'Body text' },
-    { image: product7, title: 'Product 7', price: '$0', description: 'Body text' },
-    { image: product8, title: 'Product 8', price: '$0', description: 'Body text' },
-    { image: product9, title: 'Product 9', price: '$0', description: 'Body text' },
+const initialProducts = [
+    { image: product1, title: 'Product 1', price: '$500', description: 'Body text', brand: 'Brand 1', rating: 4, offers: ['Buy More, Save More'] },
+    { image: product2, title: 'Product 2', price: '$300', description: 'Body text', brand: 'Brand 2', rating: 3, offers: ['No Cost EMI'] },
+    { image: product3, title: 'Product 3', price: '$1500', description: 'Body text', brand: 'Brand 1', rating: 5, offers: ['Special Price'] },
+    { image: product4, title: 'Product 4', price: '$700', description: 'Body text', brand: 'Brand 3', rating: 2, offers: [] },
+    { image: product5, title: 'Product 5', price: '$400', description: 'Body text', brand: 'Brand 2', rating: 4, offers: ['Buy More, Save More'] },
+    { image: product6, title: 'Product 6', price: '$800', description: 'Body text', brand: 'Brand 3', rating: 3, offers: ['No Cost EMI'] },
+    { image: product7, title: 'Product 7', price: '$200', description: 'Body text', brand: 'Brand 1', rating: 5, offers: [] },
+    { image: product8, title: 'Product 8', price: '$1000', description: 'Body text', brand: 'Brand 2', rating: 4, offers: ['Special Price'] },
+    { image: product9, title: 'Product 9', price: '$600', description: 'Body text', brand: 'Brand 3', rating: 3, offers: ['No Cost EMI'] },
 ];
 
 const ProductPage = () => {
+    // Filter state
+    const [minPrice, setMinPrice] = useState('');
+    const [maxPrice, setMaxPrice] = useState('');
+    const [selectedBrands, setSelectedBrands] = useState([]);
+    const [rating, setRating] = useState([]);
+    const [offers, setOffers] = useState([]);
+
+    // Filter products based on selected criteria
+    const filteredProducts = initialProducts.filter(product => {
+        const price = parseInt(product.price.replace('$', '').replace(',', ''));
+        const min = minPrice ? parseInt(minPrice) : 0;
+        const max = maxPrice ? parseInt(maxPrice) : Infinity;
+
+        return (
+            price >= min &&
+            price <= max &&
+            (selectedBrands.length === 0 || selectedBrands.includes(product.brand)) &&
+            (rating.length === 0 || rating.includes(product.rating)) &&
+            (offers.length === 0 || product.offers.some(offer => offers.includes(offer)))
+        );
+    });
+
+    // Style definitions
     const productPageStyle = {
         display: 'flex',
         flexDirection: 'column',
@@ -49,9 +72,20 @@ const ProductPage = () => {
     return (
         <div style={productPageStyle}>
             <div style={mainContentStyle}>
-                <Filter />
+                <Filter
+                    minPrice={minPrice}
+                    maxPrice={maxPrice}
+                    selectedBrands={selectedBrands}
+                    rating={rating}
+                    offers={offers}
+                    setMinPrice={setMinPrice}
+                    setMaxPrice={setMaxPrice}
+                    setSelectedBrands={setSelectedBrands}
+                    setRating={setRating}
+                    setOffers={setOffers}
+                />
                 <div style={productGridStyle}>
-                    {products.map((product, index) => (
+                    {filteredProducts.map((product, index) => (
                         <ProductCard key={index} {...product} />
                     ))}
                 </div>
